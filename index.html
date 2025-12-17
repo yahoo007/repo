@@ -1,2 +1,21 @@
-FROM nginx:alpine
-COPY index.html /usr/share/nginx/html/
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Mon App DevOps</title>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #f0f2f5; }
+        .card { background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center; }
+        h1 { color: #1a73e8; }
+        p { color: #5f6368; }
+        .status { color: #34a853; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>🚀 Pipeline Opérationnel !</h1>
+        <p>Cette page a été déployée automatiquement par <strong>Jenkins</strong>.</p>
+        <p class="status">Statut : Connecté à Docker & Datadog</p>
+    </div>
+</body>
+</html>
