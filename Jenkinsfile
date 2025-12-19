@@ -18,6 +18,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 // On construit l'image à partir du Dockerfile présent dans le dossier
+                sh 'docker build --no-cache -t mon-app-image:latest .'
                 sh 'docker build -t mon-image-web:latest .'
             }
         }
