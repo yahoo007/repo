@@ -3,775 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tech_Consulting- Services Technologiques Complet</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Ma Page Professionnelle</title>
     <style>
-        /* Reset et styles de base */
-        * {
+        /* Styles CSS */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
         }
 
-        :root {
-            --primary-color: #4a6fa5;
-            --secondary-color: #166088;
-            --accent-color: #17a2b8;
-            --light-color: #f8f9fa;
-            --dark-color: #343a40;
-            --text-color: #333;
-            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            --border-radius: 8px;
-        }
-
-        body {
-            line-height: 1.6;
-            color: var(--text-color);
-            background-color: #f5f7fa;
-        }
-
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* En-tête et navigation */
         header {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            padding: 1rem 0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: var(--shadow);
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-        }
-
-        .logo i {
-            margin-right: 10px;
-            color: var(--accent-color);
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-        }
-
-        .nav-links li {
-            margin-left: 2rem;
-        }
-
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
-            padding: 5px 10px;
-            border-radius: 4px;
-        }
-
-        .nav-links a:hover {
-            color: var(--accent-color);
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-
-        /* Section héros */
-        .hero {
-            padding: 5rem 0;
-            background: linear-gradient(rgba(74, 111, 165, 0.8), rgba(22, 96, 136, 0.9)), url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
-            background-size: cover;
-            background-position: center;
-            color: white;
+            background: #2c3e50;
+            color: #ffffff;
+            padding: 2rem 1rem;
             text-align: center;
         }
 
-        .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        .container {
+            width: 80%;
+            margin: 2rem auto;
+            overflow: hidden;
+            padding: 1rem;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
         }
 
-        .hero p {
-            font-size: 1.2rem;
-            max-width: 700px;
-            margin: 0 auto 2rem;
-            opacity: 0.9;
+        h1 {
+            margin: 0;
+            color: #ecf0f1;
+        }
+
+        h2 {
+            color: #2980b9;
+        }
+
+        p {
+            margin: 1rem 0;
         }
 
         .btn {
             display: inline-block;
-            background-color: var(--accent-color);
-            color: white;
-            padding: 0.8rem 1.8rem;
-            border-radius: 50px;
+            background: #2980b9;
+            color: #fff;
+            padding: 0.7rem 1.5rem;
             text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.3s ease;
         }
 
         .btn:hover {
-            background-color: #138496;
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            background: #3498db;
         }
 
-        /* Section des fonctionnalités */
-        .features {
-            padding: 5rem 0;
-            background-color: white;
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .section-title h2 {
-            font-size: 2.5rem;
-            color: var(--secondary-color);
-            margin-bottom: 1rem;
-        }
-
-        .section-title p {
-            color: #666;
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .feature-card {
-            background-color: white;
-            border-radius: var(--border-radius);
-            padding: 2rem;
-            box-shadow: var(--shadow);
-            transition: transform 0.3s;
-            text-align: center;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-10px);
-        }
-
-        .feature-icon {
-            font-size: 2.5rem;
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-        }
-
-        .feature-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: var(--secondary-color);
-        }
-
-        .feature-list {
-            list-style-type: none;
-            margin-top: 1rem;
-            text-align: left;
-        }
-
-        .feature-list li {
-            margin-bottom: 0.5rem;
-            padding-left: 1.5rem;
-            position: relative;
-            font-size: 0.9rem;
-            color: #555;
-        }
-
-        .feature-list li:before {
-            content: "✓";
-            position: absolute;
-            left: 0;
-            color: var(--accent-color);
-            font-weight: bold;
-        }
-
-        /* Section à propos */
-        .about {
-            padding: 5rem 0;
-            background-color: #f8f9fa;
-        }
-
-        .about-content {
-            display: flex;
-            align-items: center;
-            gap: 3rem;
-        }
-
-        .about-text {
-            flex: 1;
-        }
-
-        .about-text h2 {
-            font-size: 2.5rem;
-            color: var(--secondary-color);
-            margin-bottom: 1.5rem;
-        }
-
-        .about-text p {
-            margin-bottom: 1.5rem;
-            color: #555;
-        }
-
-        .about-image {
-            flex: 1;
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            box-shadow: var(--shadow);
-        }
-
-        .about-image img {
-            width: 100%;
-            height: auto;
-            display: block;
-            transition: transform 0.5s;
-        }
-
-        .about-image:hover img {
-            transform: scale(1.05);
-        }
-
-        /* Section contact */
-        .contact {
-            padding: 5rem 0;
-            background-color: white;
-        }
-
-        .contact-form {
-            max-width: 700px;
-            margin: 0 auto;
-            background-color: #f8f9fa;
-            padding: 2.5rem;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 0.8rem;
-            border: 1px solid #ddd;
-            border-radius: var(--border-radius);
-            font-size: 1rem;
-        }
-
-        .form-group textarea {
-            min-height: 150px;
-            resize: vertical;
-        }
-
-        /* Section technologies */
-        .technologies {
-            padding: 4rem 0;
-            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-        }
-
-        .tech-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .tech-item {
-            text-align: center;
-            padding: 1.5rem;
-            background-color: white;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-            transition: all 0.3s;
-        }
-
-        .tech-item:hover {
-            transform: translateY(-5px);
-        }
-
-        .tech-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            color: var(--primary-color);
-        }
-
-        /* Pied de page */
         footer {
-            background-color: var(--dark-color);
-            color: white;
-            padding: 3rem 0 1.5rem;
-        }
-
-        .footer-content {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            margin-bottom: 2rem;
-        }
-
-        .footer-column {
-            flex: 1;
-            min-width: 250px;
-            margin-bottom: 1.5rem;
-        }
-
-        .footer-column h3 {
-            font-size: 1.3rem;
-            margin-bottom: 1.5rem;
-            color: var(--accent-color);
-        }
-
-        .footer-column ul {
-            list-style: none;
-        }
-
-        .footer-column ul li {
-            margin-bottom: 0.8rem;
-        }
-
-        .footer-column ul li a {
-            color: #ccc;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .footer-column ul li a:hover {
-            color: var(--accent-color);
-        }
-
-        .social-icons {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .social-icons a {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            color: white;
-            text-decoration: none;
-            transition: all 0.3s;
-        }
-
-        .social-icons a:hover {
-            background-color: var(--accent-color);
-            transform: translateY(-5px);
-        }
-
-        .copyright {
             text-align: center;
-            padding-top: 1.5rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: #aaa;
+            padding: 2rem;
+            margin-top: 2rem;
             font-size: 0.9rem;
-        }
-
-        /* Responsive design */
-        @media (max-width: 992px) {
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-            
-            .about-content {
-                flex-direction: column;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .mobile-menu-btn {
-                display: block;
-            }
-
-            .nav-links {
-                position: fixed;
-                top: 70px;
-                left: 0;
-                width: 100%;
-                background-color: var(--secondary-color);
-                flex-direction: column;
-                align-items: center;
-                padding: 2rem 0;
-                clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
-                transition: all 0.4s ease;
-            }
-
-            .nav-links.active {
-                clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-            }
-
-            .nav-links li {
-                margin: 1rem 0;
-            }
-
-            .hero h1 {
-                font-size: 2rem;
-            }
-
-            .section-title h2 {
-                font-size: 2rem;
-            }
+            color: #777;
         }
     </style>
 </head>
 <body>
-    <!-- En-tête avec navigation -->
+
     <header>
-        <div class="container">
-            <nav>
-                <div class="logo">
-                    <i class="fas fa-laptop-code"></i>
-                    TechSolutions
-                </div>
-                <button class="mobile-menu-btn" id="mobileMenuBtn">
-                    <i class="fas fa-bars"></i>
-                </button>
-                <ul class="nav-links" id="navLinks">
-                    <li><a href="#home">Accueil</a></li>
-                    <li><a href="#features">Services</a></li>
-                    <li><a href="#technologies">Technologies</a></li>
-                    <li><a href="#about">À propos</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-            </nav>
-        </div>
+        <h1>Bienvenue sur TechSolutions</h1>
+        <p>Expertise DevOps & Cloud</p>
     </header>
 
-    <!-- Section héros -->
-    <section class="hero" id="home">
-        <div class="container">
-            <h1>Solutions Technologiques Complètes</h1>
-            <p>Développement web, applications JavaScript, infrastructures réseau et déploiement Cloud. Nous transformons vos idées en solutions numériques performantes et évolutives.</p>
-            <a href="#features" class="btn">Découvrir nos services</a>
-        </div>
-    </section>
+    <div class="container">
+        <h2>À propos de nous</h2>
+        <p>Nous transformons vos infrastructures grâce à l'automatisation et aux technologies de pointe. Cette page est actuellement déployée via un pipeline <strong>Jenkins</strong> et surveillée par <strong>Datadog</strong>.</p>
+        
+        <p>État du système : <span style="color: green; font-weight: bold;">Opérationnel</span></p>
 
-    <!-- Section fonctionnalités -->
-    <section class="features" id="features">
-        <div class="container">
-            <div class="section-title">
-                <h2>Nos Services Spécialisés</h2>
-                <p>Nous offrons une gamme complète de services technologiques pour répondre à tous vos besoins numériques, du développement à la mise en production.</p>
-            </div>
-            <div class="features-grid">
-                <!-- Fonctionnalité 1: Développement Web -->
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-laptop-code"></i>
-                    </div>
-                    <h3>Développement Web</h3>
-                    <p>Des sites web responsives et modernes avec HTML5, CSS3 et frameworks JavaScript avancés pour une expérience utilisateur optimale.</p>
-                    <ul class="feature-list">
-                        <li>Sites vitrines & e-commerce</li>
-                        <li>Applications web progressives (PWA)</li>
-                        <li>UI/UX design sur mesure</li>
-                    </ul>
-                </div>
-                
-                <!-- Fonctionnalité 2: Applications JavaScript -->
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fab fa-js-square"></i>
-                    </div>
-                    <h3>Applications JavaScript</h3>
-                    <p>Développement d'applications full-stack avec les écosystèmes JavaScript modernes pour des solutions performantes et évolutives.</p>
-                    <ul class="feature-list">
-                        <li>React, Vue.js & Angular</li>
-                        <li>Applications Node.js & Express</li>
-                        <li>Bases de données NoSQL (MongoDB)</li>
-                    </ul>
-                </div>
-                
-                <!-- Fonctionnalité 3: Réseaux & Systèmes -->
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-network-wired"></i>
-                    </div>
-                    <h3>Réseaux & Systèmes</h3>
-                    <p>Conception, déploiement et sécurisation d'infrastructures réseau robustes et de systèmes informatiques performants.</p>
-                    <ul class="feature-list">
-                        <li>Administration serveurs Linux/Windows</li>
-                        <li>Réseaux sécurisés & VPN</li>
-                        <li>Supervision & monitoring systèmes</li>
-                    </ul>
-                </div>
-                
-                <!-- Fonctionnalité 4: Cloud & Production -->
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-cloud"></i>
-                    </div>
-                    <h3>Cloud & Mise en Production</h3>
-                    <p>Déploiement et gestion d'applications sur les principales plateformes Cloud avec des pipelines CI/CD automatisés.</p>
-                    <ul class="feature-list">
-                        <li>AWS, Azure & Google Cloud</li>
-                        <li>Conteneurisation Docker & Kubernetes</li>
-                        <li>CI/CD & DevOps automatisés</li>
-                    </ul>
-                </div>
-                
-                <!-- Fonctionnalité 5: Mobile -->
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-mobile-alt"></i>
-                    </div>
-                    <h3>Applications Mobiles</h3>
-                    <p>Création d'applications natives et cross-platform pour iOS et Android avec les technologies les plus récentes.</p>
-                    <ul class="feature-list">
-                        <li>React Native & Flutter</li>
-                        <li>Applications iOS & Android natives</li>
-                        <li>Publication sur stores</li>
-                    </ul>
-                </div>
-                
-                <!-- Fonctionnalité 6: Base de données -->
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-database"></i>
-                    </div>
-                    <h3>Bases de Données</h3>
-                    <p>Conception, optimisation et sécurisation de bases de données relationnelles et non-relationnelles.</p>
-                    <ul class="feature-list">
-                        <li>MySQL, PostgreSQL & SQL Server</li>
-                        <li>MongoDB, Redis & Elasticsearch</li>
-                        <li>Optimisation & sauvegarde</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
+        <a href="#" class="btn">En savoir plus</a>
+    </div>
 
-    <!-- Section technologies -->
-    <section class="technologies" id="technologies">
-        <div class="container">
-            <div class="section-title">
-                <h2>Technologies Utilisées</h2>
-                <p>Nous maîtrisons un large éventail de technologies modernes pour répondre à tous vos besoins techniques.</p>
-            </div>
-            <div class="tech-grid">
-                <div class="tech-item">
-                    <div class="tech-icon"><i class="fab fa-html5"></i></div>
-                    <h4>HTML5 / CSS3</h4>
-                </div>
-                <div class="tech-item">
-                    <div class="tech-icon"><i class="fab fa-js"></i></div>
-                    <h4>JavaScript ES6+</h4>
-                </div>
-                <div class="tech-item">
-                    <div class="tech-icon"><i class="fab fa-react"></i></div>
-                    <h4>React.js</h4>
-                </div>
-                <div class="tech-item">
-                    <div class="tech-icon"><i class="fab fa-node-js"></i></div>
-                    <h4>Node.js</h4>
-                </div>
-                <div class="tech-item">
-                    <div class="tech-icon"><i class="fab fa-docker"></i></div>
-                    <h4>Docker</h4>
-                </div>
-                <div class="tech-item">
-                    <div class="tech-icon"><i class="fab fa-aws"></i></div>
-                    <h4>AWS</h4>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Section à propos -->
-    <section class="about" id="about">
-        <div class="container">
-            <div class="about-content">
-                <div class="about-text">
-                    <h2>À propos de nous</h2>
-                    <p>TechSolutions est une équipe pluridisciplinaire de développeurs, d'administrateurs systèmes et d'experts Cloud passionnés par les technologies modernes. Notre mission est de fournir des solutions numériques complètes qui répondent aux défis techniques actuels.</p>
-                    <p>Depuis plus de 8 ans, nous accompagnons nos clients dans la transformation numérique de leurs activités, en mettant l'accent sur la qualité, la sécurité et l'évolutivité des solutions déployées.</p>
-                    <p>Notre expertise couvre l'ensemble de la stack technologique, du développement front-end à l'infrastructure Cloud, en passant par la sécurité des réseaux et la gestion des bases de données.</p>
-                    <a href="#contact" class="btn">Nous contacter</a>
-                </div>
-                <div class="about-image">
-                    <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" alt="Équipe TechSolutions">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Section contact -->
-    <section class="contact" id="contact">
-        <div class="container">
-            <div class="section-title">
-                <h2>Contactez-nous</h2>
-                <p>Discutons de votre projet technologique. Notre équipe est à votre disposition pour analyser vos besoins et vous proposer la meilleure solution.</p>
-            </div>
-            <div class="contact-form">
-                <form id="contactForm">
-                    <div class="form-group">
-                        <label for="name">Nom complet</label>
-                        <input type="text" id="name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Adresse email</label>
-                        <input type="email" id="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="service">Service intéressé</label>
-                        <select id="service" required>
-                            <option value="">Sélectionnez un service</option>
-                            <option value="web">Développement Web</option>
-                            <option value="js">Applications JavaScript</option>
-                            <option value="network">Réseaux & Systèmes</option>
-                            <option value="cloud">Cloud & DevOps</option>
-                            <option value="mobile">Applications Mobiles</option>
-                            <option value="database">Bases de Données</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="message">Votre projet</label>
-                        <textarea id="message" required placeholder="Décrivez votre projet, vos besoins et vos objectifs..."></textarea>
-                    </div>
-                    <button type="submit" class="btn">Envoyer la demande</button>
-                </form>
-            </div>
-        </div>
-    </section>
-
-    <!-- Pied de page -->
     <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-column">
-                    <h3>TechSolutions</h3>
-                    <p>Spécialistes en solutions technologiques complètes. Nous créons des systèmes digitaux performants, sécurisés et évolutifs.</p>
-                    <div class="social-icons">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#"><i class="fab fa-github"></i></a>
-                    </div>
-                </div>
-                <div class="footer-column">
-                    <h3>Services</h3>
-                    <ul>
-                        <li><a href="#features">Développement Web</a></li>
-                        <li><a href="#features">Applications JavaScript</a></li>
-                        <li><a href="#features">Réseaux & Systèmes</a></li>
-                        <li><a href="#features">Cloud & DevOps</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h3>Contact</h3>
-                    <ul>
-                        <li><i class="fas fa-map-marker-alt"></i> 123 Avenue de la Technologie, Paris</li>
-                        <li><i class="fas fa-phone"></i> +33 1 23 45 67 89</li>
-                        <li><i class="fas fa-envelope"></i> contact@techsolutions.fr</li>
-                        <li><i class="fas fa-clock"></i> Lun-Ven: 9h-18h</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="copyright">
-                <p>&copy; 2023 TechSolutions. Tous droits réservés. | Site créé avec HTML, CSS et JavaScript</p>
-            </div>
-        </div>
+        &copy; 2025 TechSolutions - Projet DevOps Git
     </footer>
 
-    <script>
-        // Menu mobile
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const navLinks = document.getElementById('navLinks');
-        
-        mobileMenuBtn.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-            mobileMenuBtn.innerHTML = navLinks.classList.contains('active') 
-                ? '<i class="fas fa-times"></i>' 
-                : '<i class="fas fa-bars"></i>';
-        });
-        
-        // Fermer le menu mobile en cliquant sur un lien
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
-            });
-        });
-        
-        // Gestion du formulaire de contact
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Récupérer les valeurs du formulaire
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const service = document.getElementById('service').value;
-            const message = document.getElementById('message').value;
-            
-            // Services mapping
-            const services = {
-                'web': 'Développement Web',
-                'js': 'Applications JavaScript',
-                'network': 'Réseaux & Systèmes',
-                'cloud': 'Cloud & DevOps',
-                'mobile': 'Applications Mobiles',
-                'database': 'Bases de Données'
-            };
-            
-            // Message de confirmation
-            alert(`Merci ${name} ! Votre demande concernant "${services[service]}" a été envoyée. Nous vous répondrons à ${email} dans les 24 heures.`);
-            
-            // Réinitialiser le formulaire
-            this.reset();
-        });
-        
-        // Animation au défilement
-        window.addEventListener('scroll', () => {
-            const header = document.querySelector('header');
-            if (window.scrollY > 50) {
-                header.style.padding = '0.5rem 0';
-            } else {
-                header.style.padding = '1rem 0';
-            }
-        });
-    </script>
 </body>
 </html>
