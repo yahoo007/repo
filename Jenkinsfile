@@ -2,23 +2,33 @@ pipeline {
     agent any
 
     environment {
-        // ID du secret que vous avez créé dans Jenkins
         DB_PASS_SECRET = credentials('DB_PASSWORD')
+        // On définit un chemin local pour le binaire compose
+        DOCKER_COMPOSE_BIN = "./docker-compose-temp"
     }
 
     stages {
-        stage('1. Nettoyage') {
+        stage('0. Préparation Docker Compose') {
             steps {
-                echo 'Nettoyage des anciens conteneurs...'
-                // Utilisation de "docker compose" (avec espace)
-                sh 'docker compose down --remove-orphans || true'
+                echo 'Téléchargement de Docker Compose...'
+                // Télécharge le binaire directement dans le dossier de travail
+                sh 'curl -SL https://github.com/docker/compose/releases/download/v2.24.5/docker-compose-linux-x86_64 -o ${DOCKER_COMPOSE_BIN}'
+                sh 'chmod +x ${DOCKER_COMPOSE_BIN}'
+                sh "${DOCKER_COMPOSE_BIN} version"
             }
         }
 
-        stage('2. Build & Security Scan') {
+        stage('1. Nettoyage') {
+            steps {
+                echo 'Nettoyage des anciens conteneurs...'
+                sh "${DOCKER_COMPOSE_BIN} down || true"
+            }
+        }
+
+        stage('2. Build & Scan') {
             steps {
                 echo 'Construction de l\'image...'
-                sh 'docker compose build'
+                sh "${DOCKER_COMPOSE_BIN} build"
                 
                 echo 'Scan de sécurité avec Trivy...'
                 sh "docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image --severity CRITICAL mon-app-v2:latest"
@@ -28,18 +38,15 @@ pipeline {
         stage('3. Déploiement Sécurisé') {
             steps {
                 echo 'Lancement des services...'
-                // On utilise la variable d'environnement définie plus haut
-                sh "DB_PASSWORD=${DB_PASS_SECRET} docker compose up -d --force-recreate"
+                sh "DB_PASSWORD=${DB_PASS_SECRET} ${DOCKER_COMPOSE_BIN} up -d"
             }
         }
     }
 
     post {
-        success {
-            echo 'Déploiement réussi sur http://localhost:8081'
-        }
-        failure {
-            echo 'Le pipeline a échoué. Vérifiez les erreurs ci-dessus.'
+        always {
+            echo 'Nettoyage du binaire temporaire...'
+            sh "rm -f ${DOCKER_COMPOSE_BIN}"
         }
     }
 }
