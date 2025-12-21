@@ -2,6 +2,7 @@ pipeline {
     agent any
 
     environment {
+        // Définition des variables pour l'image
         IMAGE_NAME = "test-docker-web-app"
         IMAGE_TAG  = "${env.BUILD_ID}"
         FULL_IMAGE = "${IMAGE_NAME}:${IMAGE_TAG}"
@@ -10,6 +11,7 @@ pipeline {
     stages {
         stage('1. Préparation') {
             steps {
+                echo "Nettoyage et récupération du code..."
                 deleteDir()
                 checkout scm
             }
@@ -28,11 +30,11 @@ pipeline {
         stage('3. Scan de Sécurité (Trivy)') {
             steps {
                 script {
-                    echo "Nettoyage du cache Trivy et lancement du scan..."
-                    // Nouvelle syntaxe Trivy pour vider le cache et libérer de la place
+                    echo "Nettoyage du cache Trivy et scan..."
+                    // Nettoyage du cache (nouvelle syntaxe)
                     sh "docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy:latest clean --all"
-
-                    // Lancement du scan
+                    
+                    // Scan de l'image (échoue si faille CRITICAL)
                     sh """
                         docker run --rm \
                             -v /var/run/docker.sock:/var/run/docker.sock \
@@ -45,23 +47,46 @@ pipeline {
             }
         }
 
-        stage('4. Déploiement') {
-    steps {
-        echo "Lancement de l'application..."
-        // -d: arrière-plan, -p: lie le port du serveur (8081) au port du conteneur (5000 par défaut pour Flask)
-        sh "docker run -d -p 8081:5000 --name mon-app-container ${FULL_IMAGE}"
-    }
-}
+        stage('4. Déploiement avec .env') {
+            steps {
+                script {
+                    echo "Nettoyage des anciens conteneurs..."
+                    // Arrête et supprime l'application si elle existe déjà
+                    sh "docker stop mon-app-container || true"
+                    sh "docker rm mon-app-container || true"
+                    
+                    echo "Lancement de l'application..."
+                    // Utilisation du fichier .env pour injecter les mots de passe
+                    // --network devsecops-net : pour communiquer avec le conteneur 'db'
+                    // --env-file .env : pour lire les variables de configuration
+                    sh """
+                        docker run -d \
+                            -p 8081:5000 \
+                            --name mon-app-container \
+                            --network devsecops-net \
+                            --env-file .env \
+                            -e DB_HOST=db \
+                            ${FULL_IMAGE}
+                    """
+                }
+            }
+        }
     }
 
     post {
         always {
+            echo "Nettoyage final..."
             sh "rm -f ./docker-compose-temp"
-            // On nettoie l'image tout de suite pour ne pas saturer le disque
-            sh "docker rmi ${FULL_IMAGE} ${IMAGE_NAME}:latest || true"
+            // On ne supprime pas l'image immédiatement ici pour que le conteneur puisse tourner
+        }
+        success {
+            echo "Déploiement réussi ! Disponible sur http://localhost:8081"
+        }
+        failure {
+            echo "Le pipeline a échoué. Vérifiez l'espace disque ou les logs Trivy."
         }
         cleanup {
-            // Nettoyage agressif des résidus Docker
+            // Supprime les images inutilisées pour libérer de l'espace sur le serveur
             sh "docker image prune -f"
         }
     }
