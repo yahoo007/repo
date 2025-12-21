@@ -46,10 +46,12 @@ pipeline {
         }
 
         stage('4. Déploiement') {
-            steps {
-                echo "Déploiement réussi !"
-            }
-        }
+    steps {
+        echo "Lancement de l'application..."
+        // -d: arrière-plan, -p: lie le port du serveur (8081) au port du conteneur (5000 par défaut pour Flask)
+        sh "docker run -d -p 8081:5000 --name mon-app-container ${FULL_IMAGE}"
+    }
+}
     }
 
     post {
