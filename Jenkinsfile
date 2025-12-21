@@ -2,7 +2,6 @@ pipeline {
     agent any
 
     environment {
-        // Définition dynamique du nom de l'image
         IMAGE_NAME = "test-docker-web-app"
         IMAGE_TAG  = "${env.BUILD_ID}"
         FULL_IMAGE = "${IMAGE_NAME}:${IMAGE_TAG}"
@@ -11,7 +10,6 @@ pipeline {
     stages {
         stage('1. Préparation') {
             steps {
-                echo "Nettoyage de l'espace de travail..."
                 deleteDir()
                 checkout scm
             }
@@ -27,18 +25,15 @@ pipeline {
             }
         }
 
-        stage('3. Scan de Sécurité (Trivy) - Mode Survie') {
+        stage('3. Scan de Sécurité (Trivy)') {
             steps {
                 script {
-                    echo "Réinitialisation du cache Trivy et lancement du scan..."
-                    // On exécute deux commandes : 
-                    // 1. --reset pour vider le cache qui sature le disque
-                    // 2. Le scan sans montage de cache externe pour minimiser l'écriture disque
-                    sh """
-                        docker run --rm \
-                            -v /var/run/docker.sock:/var/run/docker.sock \
-                            aquasec/trivy:latest image --reset
+                    echo "Nettoyage du cache Trivy et lancement du scan..."
+                    // Nouvelle syntaxe Trivy pour vider le cache et libérer de la place
+                    sh "docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy:latest clean --all"
 
+                    // Lancement du scan
+                    sh """
                         docker run --rm \
                             -v /var/run/docker.sock:/var/run/docker.sock \
                             aquasec/trivy:latest image \
@@ -50,25 +45,21 @@ pipeline {
             }
         }
 
-        stage('4. Déploiement (Simulation)') {
+        stage('4. Déploiement') {
             steps {
-                echo "Déploiement réussi de l'image sécurisée : ${FULL_IMAGE}"
+                echo "Déploiement réussi !"
             }
         }
     }
 
     post {
         always {
-            echo "Nettoyage des fichiers et des images temporaires..."
             sh "rm -f ./docker-compose-temp"
-            // Suppression de l'image locale pour libérer immédiatement l'espace
+            // On nettoie l'image tout de suite pour ne pas saturer le disque
             sh "docker rmi ${FULL_IMAGE} ${IMAGE_NAME}:latest || true"
         }
-        failure {
-            echo "Le pipeline a échoué. Vérifiez l'espace disque (df -h) ou les failles CRITICAL."
-        }
         cleanup {
-            // Nettoyage des images Docker 'dangling' (orphelines) pour regagner de la place
+            // Nettoyage agressif des résidus Docker
             sh "docker image prune -f"
         }
     }
