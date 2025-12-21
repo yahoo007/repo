@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+  web-app:
+    build: .
+    ports:
+      - "8081:5000"
+    env_file:             # <--- On utilise le fichier ici
+      - .env
+    environment:
+      - DB_PASSWORD=${DB_PASSWORD} # <--- Récupère la valeur du fichier .env
+    depends_on:
+      - db
+    networks:
+      - v2-network
+
+  db:
+    image: postgres:15-alpine
+    env_file:             # <--- On utilise le fichier ici
+      - .env
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    networks:
+      - v2-network
+
+networks:
+  v2-network:
+    driver: bridge

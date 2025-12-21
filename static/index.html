@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>DevOps V2 - Dashboard</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; text-align: center; background: #f0f2f5; padding-top: 50px; }
+        .card { background: white; padding: 30px; border-radius: 15px; display: inline-block; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        #status { font-weight: bold; padding: 5px 10px; border-radius: 5px; }
+        .loading { color: orange; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Système DevSecOps V2</h1>
+        <p>Base de données : <span id="status" class="loading">Vérification en cours...</span></p>
+    </div>
+
+    <script>
+        fetch('/db-check')
+            .then(res => res.json())
+            .then(data => {
+                const el = document.getElementById('status');
+                el.innerText = data.message;
+                el.className = '';
+                el.style.color = data.status === 'success' ? 'white' : 'white';
+                el.style.backgroundColor = data.status === 'success' ? '#2ecc71' : '#e74c3c';
+            });
+    </script>
+</body>
+</html>
