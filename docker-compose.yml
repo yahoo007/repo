@@ -1,29 +1,53 @@
 version: '3.8'
+
 services:
+  datadog-agent:
+    image: gcr.io/datadoghq/agent:latest
+    environment:
+      - DD_API_KEY=${DD_API_KEY}
+      - DD_SITE=datadoghq.com
+      - DD_LOGS_ENABLED=true
+      - DD_LOGS_CONFIG_CONTAINER_COLLECT_ALL=true
+      - DD_APM_ENABLED=true
+      - DD_APM_NON_LOCAL_TRAFFIC=true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /proc/:/host/proc/:ro
+      - /sys/fs/cgroup/:/host/sys/fs/cgroup:ro
+    networks:
+      - devsecops-net
+
   web-app:
     build: .
+    image: test-docker-web-app:latest
     ports:
       - "8081:5000"
-    env_file:             # <--- On utilise le fichier ici
+    env_file:
       - .env
     environment:
-      - DB_PASSWORD=${DB_PASSWORD} # <--- Récupère la valeur du fichier .env
+      - DB_HOST=db
+      - DD_AGENT_HOST=datadog-agent
+      - DD_SERVICE=mon-app-flask
+      - DD_ENV=dev
+      - DD_LOGS_INJECTION=true
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     depends_on:
+      - datadog-agent
       - db
     networks:
-      - v2-network
+      - devsecops-net
 
   db:
     image: postgres:15-alpine
-    env_file:             # <--- On utilise le fichier ici
+    env_file:
       - .env
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
     networks:
-      - v2-network
+      - devsecops-net
 
 networks:
-  v2-network:
+  devsecops-net:
     driver: bridge
