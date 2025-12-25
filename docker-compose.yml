@@ -33,3 +33,5 @@ services:
 networks:
   devsecops-net:
     external: true
+volumes:
+  postgres_data:  # <--- DÉCLARATION DU VOLUME
