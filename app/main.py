@@ -9,7 +9,7 @@ def get_db_connection():
         host='db',
         database=os.environ.get('POSTGRES_DB'),
         user=os.environ.get('POSTGRES_USER'),
-        password=os.environ.get('POSTGRES_PASSWORD')
+        password=os.environ.get('POSTGRES_PASSWORD') # commentaires de test
     )
 
 @app.route('/')

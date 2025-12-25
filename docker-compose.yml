@@ -1,44 +1,24 @@
-version: '3.8'
-
 services:
-  datadog-agent:
-    image: gcr.io/datadoghq/agent:latest
-    environment:
-      - DD_API_KEY=${DD_API_KEY}
-      - DD_SITE=datadoghq.com
-      - DD_LOGS_ENABLED=true
-      - DD_LOGS_CONFIG_CONTAINER_COLLECT_ALL=true
-      - DD_APM_ENABLED=true
-      - DD_APM_NON_LOCAL_TRAFFIC=true
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - /proc/:/host/proc/:ro
-      - /sys/fs/cgroup/:/host/sys/fs/cgroup:ro
-    networks:
-      - devsecops-net
-
   web-app:
     build: .
     image: test-docker-web-app:latest
+    container_name: mon-app-container
     ports:
       - "8081:5000"
     env_file:
       - .env
     environment:
       - DB_HOST=db
-      - DD_AGENT_HOST=datadog-agent
-      - DD_SERVICE=mon-app-flask
-      - DD_ENV=dev
-      - DD_LOGS_INJECTION=true
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - DD_AGENT_HOST=datadog-agent
     depends_on:
-      - datadog-agent
       - db
     networks:
       - devsecops-net
 
   db:
     image: postgres:15-alpine
+    container_name: db
     env_file:
       - .env
     environment:
@@ -50,4 +30,4 @@ services:
 
 networks:
   devsecops-net:
-    driver: bridge
+    external: true
