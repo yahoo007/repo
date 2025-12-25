@@ -1,27 +1,38 @@
-from flask import Flask, send_from_directory
-import os
+from flask import Flask, render_template, request, redirect
 import psycopg2
+import os
 
-# 1. On définit l'application AVANT les routes
 app = Flask(__name__)
+
+def get_db_connection():
+    return psycopg2.connect(
+        host='db',
+        database=os.environ.get('POSTGRES_DB'),
+        user=os.environ.get('POSTGRES_USER'),
+        password=os.environ.get('POSTGRES_PASSWORD')
+    )
 
 @app.route('/')
 def index():
-    return send_from_directory('../static', 'index.html')
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute('SELECT contenu FROM demandes ORDER BY date_creation DESC;')
+    demandes = cur.fetchall()
+    cur.close()
+    conn.close()
+    return render_template('index.html', demandes=demandes)
 
-@app.route('/db-check')
-def db_check():
-    try:
-        # On utilise les noms standards PostgreSQL
-        conn = psycopg2.connect(
-            host=os.getenv("DB_HOST", "db"),
-            database=os.getenv("POSTGRES_DB", "postgres"),
-            user=os.getenv("POSTGRES_USER", "postgres"),
-            password=os.getenv("POSTGRES_PASSWORD") # Changé pour correspondre à la DB
-        )
-        return {"status": "success", "message": "Connexion à PostgreSQL réussie !"}
-    except Exception as e:
-        return {"status": "error", "message": str(e)}, 500
+@app.route('/ajouter', methods=['POST'])
+def ajouter():
+    contenu = request.form['demande']
+    if contenu:
+        conn = get_db_connection()
+        cur = conn.cursor()
+        cur.execute('INSERT INTO demandes (contenu) VALUES (%s)', (contenu,))
+        conn.commit()
+        cur.close()
+        conn.close()
+    return redirect('/')
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
